@@ -1,25 +1,30 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Security, ImplicitCallback } from "@okta/okta-react";
+import AuthViews from "./AuthViews";
+
+const config = {
+  issuer: "https://dev-674288.oktapreview.com/oauth2/default",
+  redirect_uri: window.location.origin + "/implicit/callback",
+  client_id: "0oagr4td3sYTNYhcX0h7"
+};
+
+const HomeWithAuth = () => <AuthViews>HOME!</AuthViews>;
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
+      <div>
+        <Router>
+          <Security
+            issuer={config.issuer}
+            client_id={config.client_id}
+            redirect_uri={config.redirect_uri}
           >
-            Learn React
-          </a>
-        </header>
+            <Route path="/" exact={true} component={HomeWithAuth} />
+            <Route path="/implicit/callback" component={ImplicitCallback} />
+          </Security>
+        </Router>
       </div>
     );
   }
