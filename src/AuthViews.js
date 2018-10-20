@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { withAuth } from "@okta/okta-react";
 
 class AuthViews extends Component {
-  state = { isAuthenticated: null };
+  state = {
+    isAuthenticated: null,
+    userName: null
+  };
 
   componentDidMount() {
     this.checkAuthentication();
@@ -15,9 +18,16 @@ class AuthViews extends Component {
   async checkAuthentication() {
     const { props, state } = this;
     const isAuthenticated = await props.auth.isAuthenticated();
+    const hasChanged = isAuthenticated !== state.isAuthenticated;
 
-    if (isAuthenticated !== state.isAuthenticated) {
+    if (hasChanged) {
       this.setState({ isAuthenticated });
+    }
+
+    if (hasChanged && isAuthenticated) {
+      const userData = await props.auth.getUser();
+      const userName = userData.given_name;
+      this.setState({ userName });
     }
   }
 
@@ -25,13 +35,13 @@ class AuthViews extends Component {
   logout = () => this.props.auth.logout("/");
 
   getAuthView = () => {
-    const { isAuthenticated } = this.state;
+    const { isAuthenticated, userName } = this.state;
 
     switch (true) {
       case isAuthenticated === true:
         return (
           <div>
-            <p>You are logged in</p>
+            <p>Hi, {userName || "there"}. You are logged in.</p>
             <p>
               <button onClick={this.logout}>Logout</button>
             </p>
@@ -42,7 +52,7 @@ class AuthViews extends Component {
         return (
           <div>
             <p>
-              You are <strong>not</strong> logged in
+              You are <strong>not</strong> logged in.
             </p>
             <p>
               <button onClick={this.login}>Login</button>
@@ -53,7 +63,7 @@ class AuthViews extends Component {
       default:
         return (
           <div>
-            <p>Checking Authentication</p>
+            <p>Checking Authentication...</p>
           </div>
         );
     }
