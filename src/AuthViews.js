@@ -41,29 +41,45 @@ class AuthViews extends Component {
       case isAuthenticated === true:
         return (
           <div>
-            <p>Hi, {userName || "there"}. You are logged in.</p>
-            <p>
-              <button onClick={this.logout}>Logout</button>
-            </p>
-            {this.props.children}
+            <div className="alert alert-success m-3" role="alert">
+              <h4 className="alert-heading">
+                Hi, {userName || "there"}. You are logged in.
+              </h4>
+              <hr />
+              <button
+                type="button"
+                className="btn btn-light"
+                onClick={this.logout}
+              >
+                Logout
+              </button>
+            </div>
+            {this.props.children(this.props.auth)}
           </div>
         );
       case isAuthenticated === false:
         return (
           <div>
-            <p>
-              You are <strong>not</strong> logged in.
-            </p>
-            <p>
-              <button onClick={this.login}>Login</button>
-            </p>
+            <div className="alert alert-danger m-3" role="alert">
+              <h4 className="alert-heading">
+                You are <strong>not</strong> logged in.
+              </h4>
+              <hr />
+              <button
+                type="button"
+                className="btn btn-light"
+                onClick={this.login}
+              >
+                Login
+              </button>
+            </div>
           </div>
         );
 
       default:
         return (
-          <div>
-            <p>Checking Authentication...</p>
+          <div className="alert alert-warning m-3" role="alert">
+            Checking Authentication...
           </div>
         );
     }

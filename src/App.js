@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Security, ImplicitCallback } from "@okta/okta-react";
 import AuthViews from "./AuthViews";
+import Home from "./Home";
 
 const config = {
   issuer: "https://dev-674288.oktapreview.com/oauth2/default",
@@ -9,7 +10,9 @@ const config = {
   client_id: "0oagr4td3sYTNYhcX0h7"
 };
 
-const HomeWithAuth = () => <AuthViews>HOME!</AuthViews>;
+const HomeWithAuth = () => (
+  <AuthViews>{auth => <Home {...{ auth }} />}</AuthViews>
+);
 
 class App extends Component {
   render() {
