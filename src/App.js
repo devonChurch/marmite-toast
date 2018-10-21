@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Security, ImplicitCallback } from "@okta/okta-react";
 import AuthViews from "./AuthViews";
 import Home from "./Home";
+import FourOhFour from "./FourOhFour";
 
 const config = {
   issuer: "https://dev-674288.oktapreview.com/oauth2/default",
@@ -14,6 +15,8 @@ const HomeWithAuth = () => (
   <AuthViews>{auth => <Home {...{ auth }} />}</AuthViews>
 );
 
+const FourOhFourWithAuth = () => <AuthViews>{() => <FourOhFour />}</AuthViews>;
+
 class App extends Component {
   render() {
     return (
@@ -24,8 +27,11 @@ class App extends Component {
             client_id={config.client_id}
             redirect_uri={config.redirect_uri}
           >
-            <Route path="/" exact={true} component={HomeWithAuth} />
-            <Route path="/implicit/callback" component={ImplicitCallback} />
+            <Switch>
+              <Route path="/" exact={true} component={HomeWithAuth} />
+              <Route path="/implicit/callback" component={ImplicitCallback} />
+              <Route component={FourOhFourWithAuth} />
+            </Switch>
           </Security>
         </Router>
       </div>
