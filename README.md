@@ -8,7 +8,7 @@ An [AWS](https://aws.amazon.com/) / [Okta](https://www.okta.com/) Serverless aut
 
 Application authentication is handled via a [React](https://reactjs.org/) based implementation with [Okta's Higher order component](https://github.com/okta/okta-oidc-js/tree/master/packages/okta-react) and [React Router](https://github.com/ReactTraining/react-router).
 
-I created a custom `<AuthViews /> component that handles the three authentication views on a per route basis:
+I created a custom `<AuthViews />` component that handles the three authentication views on a per route basis:
 
 1. ### Is _authenticating..._.
 
@@ -45,7 +45,7 @@ The sequence in this proof of concept is as follows:
 
 ### Infrastructure
 
-![marmite-toast](https://user-images.githubusercontent.com/15273233/47283069-2ca30e00-d63e-11e8-88cd-8bc4c0650f72.png)
+![marmite-toast](https://user-images.githubusercontent.com/15273233/47344845-e74a1380-d705-11e8-837c-2554c30aa555.png)
 
 ## Single page app
 
@@ -53,4 +53,4 @@ Because we are using an SPA methodology in conjunction with a Serverless impleme
 
 ## GLHF
 
-🎉 😀 👍
+_(**G**ood **L**uck, **H**ave **F**un)_ 🎉 😀 👍
