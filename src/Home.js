@@ -7,15 +7,11 @@ class Home extends Component {
     isError: false
   };
 
-  componentDidMount() {
-    this.getData();
-  }
-
-  async getData() {
-    const { props, state } = this;
+  getData = async () => {
+    const { props } = this;
 
     try {
-      const accessToken = await this.props.auth.getAccessToken();
+      const accessToken = await props.auth.getAccessToken();
       const response = await axios({
         method: "post",
         url: "http://localhost:4000/users/getdata",
@@ -25,10 +21,15 @@ class Home extends Component {
       });
       this.setState({ yearlyData: response.data });
     } catch (error) {
-      console.error(error);
+      const { name } = error.response.data;
+
       this.setState({ isError: true });
+
+      if (name === "JwtParseError") {
+        props.auth.redirect();
+      }
     }
-  }
+  };
 
   render() {
     const {
@@ -37,6 +38,17 @@ class Home extends Component {
 
     return (
       <div>
+        {!yearlyData &&
+          !isError && (
+            <button
+              type="button"
+              className="btn btn-primary m-3"
+              onClick={this.getData}
+            >
+              Request Information
+            </button>
+          )}
+
         {!yearlyData &&
           isError && (
             <div className="alert alert-danger m-3" role="alert">

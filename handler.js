@@ -14,7 +14,7 @@ const s3 = new AWS.S3({
 
 module.exports.getdata = async (event, context) => {
   const { Authorization } = event.headers;
-  let response = {};
+  let response = "{}";
 
   try {
     // Authorise.
@@ -39,7 +39,10 @@ module.exports.getdata = async (event, context) => {
     };
   } catch (error) {
     console.error(error);
-    response = error;
+    response = {
+      statusCode: 400,
+      body: JSON.stringify(error)
+    };
   }
 
   return response;
