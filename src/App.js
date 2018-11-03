@@ -15,8 +15,6 @@ const HomeWithAuth = () => (
   <AuthViews>{auth => <Home {...{ auth }} />}</AuthViews>
 );
 
-const FourOhFourWithAuth = () => <AuthViews>{() => <FourOhFour />}</AuthViews>;
-
 class App extends Component {
   render() {
     return (
@@ -30,7 +28,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact={true} component={HomeWithAuth} />
               <Route path="/implicit/callback" component={ImplicitCallback} />
-              <Route component={FourOhFourWithAuth} />
+              <Route component={FourOhFour} />
             </Switch>
           </Security>
         </Router>
